@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Math Revision – MS. Meritt Ihab</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { width: 100%; height: 100%; overflow: hidden;
+    font-family: 'Cambria Math', 'Times New Roman', Georgia, serif; color: #111; }
+  body {
+    background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee,
+                                #84fab0, #8fd3f4, #ffecd2, #fcb69f);
+    background-size: 400% 400%; animation: gradientMove 18s ease infinite;
+  }
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes nameShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+  #splash { position: fixed; inset: 0; z-index: 999;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 20px;
+    background: linear-gradient(-45deg, #ffecd2, #fcb69f, #a6c1ee,
+                                #84fab0, #8fd3f4, #fbc2eb, #ffecd2);
+    background-size: 400% 400%; animation: gradientMove 12s ease infinite;
+    transition: opacity .7s ease; overflow-y: auto; }
+  #splash.hide { opacity: 0; pointer-events: none; }
+  #splash h1 { font-family: 'Segoe UI', Tahoma, sans-serif; font-weight: 900;
+    font-size: clamp(32px, 8vw, 100px); letter-spacing: 2px; line-height: 1.1;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #ff006e, #ffbe0b, #06d6a0, #3a86ff, #8338ec, #ff006e);
+    background-size: 300% 100%; -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+    animation: nameShift 4s linear infinite;
+    filter: drop-shadow(0 4px 16px rgba(255,255,255,0.9)); }
+  #splash .line1 { font-family: 'Segoe UI', Tahoma, sans-serif; font-weight: 800;
+    font-size: clamp(15px, 3.5vw, 38px); color: #1a1a2e;
+    text-shadow: 0 2px 6px rgba(255,255,255,0.9); margin-top: 12px; }
+  #splash .line2 { font-family: 'Segoe UI', Tahoma, sans-serif; font-weight: 700;
+    font-size: clamp(13px, 3vw, 30px); color: #222;
+    text-shadow: 0 2px 6px rgba(255,255,255,0.9); margin-top: 6px; }
+  #startBtn { margin-top: 35px; margin-bottom: 20px;
+    font-family: 'Segoe UI', Tahoma, sans-serif; font-weight: 900;
+    font-size: clamp(18px, 4vw, 34px); padding: 14px 55px;
+    border: 5px solid #fff; border-radius: 60px;
+    background: linear-gradient(135deg, #ff006e, #8338ec);
+    color: #fff; cursor: pointer;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.35); letter-spacing: 2px;
+    transition: transform .2s, filter .2s;
+    -webkit-appearance: none; appearance: none; }
+  #startBtn:hover { transform: scale(1.08); filter: brightness(1.1); }
+  #startBtn:active { transform: scale(.97); }
+  #app { width: 100vw; height: 100vh; height: 100dvh;
+    display: flex; flex-direction: column; padding: 6px 8px 8px; gap: 4px; }
+  header { text-align: center; background: rgba(255,255,255,0.85);
+    border-radius: 12px; padding: 6px 10px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.15); flex-shrink: 0; position: relative; }
+  header h1 { font-size: clamp(15px, 3.5vw, 34px); font-weight: 900;
+    letter-spacing: 1.5px; line-height: 1.15;
+    background: linear-gradient(90deg, #ff006e, #8338ec, #3a86ff, #06d6a0, #ffbe0b, #ff006e);
+    background-size: 300% 100%; -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent; color: transparent;
+    animation: nameShift 5s linear infinite; display: inline-block; padding-right: 40px; }
+  header .sub1 { font-family: 'Segoe UI', Tahoma, sans-serif; font-weight: 700;
+    color: #1a1a1a; line-height: 1.2; font-size: clamp(9px, 1.8vw, 15px); margin-top: 1px; }
+  header .sub2 { font-family: 'Segoe UI', Tahoma, sans-serif; font-weight: 700;
+    color: #333; line-height: 1.2; font-size: clamp(8px, 1.6vw, 13px); }
+  #muteBtn { position: absolute; top: 6px; right: 8px; background: #fff;
+    border: 2px solid #ff006e; border-radius: 50%; width: 32px; height: 32px;
+    font-size: 15px; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transition: transform .15s, background .15s;
+    -webkit-appearance: none; appearance: none; padding: 0; }
+  #muteBtn:hover { transform: scale(1.1); background: #ffe6f2; }
+  #muteBtn.muted { border-color: #999; opacity: .65; }
+  #progressWrap { flex-shrink: 0; height: 16px; background: rgba(255,255,255,0.6);
+    border-radius: 8px; overflow: hidden; position: relative;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.15); }
+  #progressFill { height: 100%; width: 0%;
+    background: linear-gradient(90deg, #06d6a0, #3a86ff, #8338ec);
+    transition: width .4s ease; }
+  #progressText { position: absolute; inset: 0; display: flex; align-items: center;
+    justify-content: center; font-family: 'Segoe UI', sans-serif; font-weight: 800;
+    font-size: 10px; color: #111; letter-spacing: .5px; }
+  #questionBox { flex-shrink: 0; background: rgba(255,255,255,0.95);
+    border-radius: 12px; padding: 6px 10px;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.12); border-left: 6px solid #8338ec;
+    font-size: clamp(12px, 2.4vw, 20px); font-weight: 700; line-height: 1.3;
+    max-height: 18vh; overflow: hidden; display: flex; align-items: center; gap: 6px; }
+  #questionBox .qNum { color: #ff006e; font-family: 'Segoe UI', sans-serif;
+    font-weight: 900; flex-shrink: 0; }
+  #questionBox .qText { flex: 1; overflow: hidden; }
+  #questionBox .qSpeak { flex-shrink: 0; background: #fff0f6; border: 2px solid #ff006e;
+    border-radius: 50%; width: 32px; height: 32px; font-size: 14px;
+    cursor: pointer; transition: transform .15s, background .15s;
+    -webkit-appearance: none; appearance: none; padding: 0; }
+  #questionBox .qSpeak:hover { transform: scale(1.1); background: #ffd6e6; }
+  #stepsArea { flex: 1 1 auto; display: grid; grid-template-columns: 1fr 1fr;
+    grid-auto-rows: minmax(0, auto); gap: 6px 10px; align-content: start;
+    overflow-y: auto; overflow-x: hidden; padding: 2px;
+    -webkit-overflow-scrolling: touch; }
+  .step { background: rgba(255,255,255,0.95); border-radius: 8px;
+    padding: 5px 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+    font-size: clamp(10px, 1.4vw, 15px); line-height: 1.35;
+    animation: popIn .35s ease; border-top: 3px solid #3a86ff;
+    position: relative; display: flex; align-items: flex-start; gap: 5px;
+    word-wrap: break-word; overflow-wrap: break-word; }
+  .step.left { border-top-color: #3a86ff; }
+  .step.right { border-top-color: #06d6a0; }
+  .step.formula { background: #fffbe6; border-top-color: #ffbe0b; font-weight: 600; }
+  .step.final { grid-column: 1 / -1; border-top-color: #ff006e;
+    background: linear-gradient(90deg, #fff0f6, #e9f7ff); font-weight: 800;
+    font-size: clamp(12px, 1.7vw, 18px); }
+  .step .badge { flex-shrink: 0; background: #3a86ff; color: #fff;
+    font-family: 'Segoe UI', sans-serif; font-weight: 900; font-size: .8em;
+    border-radius: 5px; padding: 1px 5px; min-width: 20px; text-align: center; }
+  .step.right .badge { background: #06d6a0; }
+  .step.formula .badge { background: #ffbe0b; color: #111; }
+  .step.final .badge { background: #ff006e; }
+  .step .txt { flex: 1; min-width: 0; }
+  .step .speak { flex-shrink: 0; background: transparent; border: none;
+    font-size: 1em; cursor: pointer; opacity: .8;
+    transition: transform .15s, opacity .15s; padding: 0 2px;
+    -webkit-appearance: none; appearance: none; }
+  .step .speak:hover { opacity: 1; transform: scale(1.2); }
+  @keyframes popIn {
+    from { opacity: 0; transform: translateY(10px) scale(.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  #controls { flex-shrink: 0; display: flex; justify-content: center;
+    gap: 8px; padding: 2px 0; flex-wrap: wrap; }
+  .ctrlBtn { font-family: 'Segoe UI', Tahoma, sans-serif; font-weight: 900;
+    font-size: clamp(11px, 2vw, 18px); padding: 8px 18px; border: none;
+    border-radius: 30px; cursor: pointer; color: #fff; letter-spacing: .5px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+    transition: transform .15s, filter .15s, opacity .2s;
+    -webkit-appearance: none; appearance: none; touch-action: manipulation; }
+  .ctrlBtn:hover { transform: translateY(-2px) scale(1.03); filter: brightness(1.1); }
+  .ctrlBtn:active { transform: translateY(1px) scale(.98); }
+  #addStepBtn { background: linear-gradient(135deg, #3a86ff, #8338ec); flex: 1; max-width: 200px; }
+  #nextBtn { background: linear-gradient(135deg, #06d6a0, #118ab2); flex: 1; max-width: 200px; }
+  #nextBtn[disabled], #addStepBtn[disabled] { opacity: .35; cursor: not-allowed;
+    transform: none; filter: none; }
+  .frac { display: inline-flex; flex-direction: column; align-items: center;
+    vertical-align: middle; margin: 0 3px; line-height: 1.05; font-size: 1em;
+    position: relative; top: -0.05em; }
+  .frac .num { border-bottom: 2px solid #111; padding: 0 4px 1px;
+    font-weight: 700; white-space: nowrap; }
+  .frac .den { padding: 1px 4px 0; font-weight: 700; white-space: nowrap; }
+  #endScreen { display: none; flex: 1; align-items: center; justify-content: center;
+    flex-direction: column; text-align: center; font-family: 'Segoe UI', sans-serif;
+    font-size: clamp(16px, 4vw, 40px); font-weight: 900; color: #fff;
+    text-shadow: 0 3px 12px rgba(0,0,0,0.35); gap: 12px; padding: 20px; }
+  @media (max-width: 700px) {
+    #stepsArea { grid-template-columns: 1fr; gap: 4px; }
+    .step.final { grid-column: 1; }
+  }
+  @media (max-height: 600px) {
+    header .sub1 { display: none; }
+    header { padding: 4px 8px; }
+  }
+  @media (max-height: 500px) {
+    header .sub2 { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div id="splash">
+  <h1>MS. Meritt Ihab</h1>
+  <div class="line1">1st Prep. – 1st Term Mathematics</div>
+  <div class="line2">End of 1st Month Exercises – Complete Solutions</div>
+  <button id="startBtn">▶ Start</button>
+</div>
+
+<div id="app">
+  <header>
+    <button id="muteBtn" title="Mute / Unmute all sounds">🔊</button>
+    <h1>MS. Meritt Ihab</h1>
+    <div class="sub1">1st Prep. – 1st Term Mathematics</div>
+    <div class="sub2">End of 1st Month Exercises – Complete Solutions</div>
+  </header>
+
+  <div id="progressWrap">
+    <div id="progressFill"></div>
+    <div id="progressText">Question 1 of 70</div>
+  </div>
+
+  <div id="questionBox">
+    <span class="qNum"></span>
+    <span class="qText"></span>
+    <button class="qSpeak" id="qSpeakBtn" title="Read the question aloud">🔊</button>
+  </div>
+
+  <div id="stepsArea"></div>
+
+  <div id="controls">
+    <button class="ctrlBtn" id="addStepBtn">➕ Add Step</button>
+    <button class="ctrlBtn" id="nextBtn" disabled>Next ➡</button>
+  </div>
+
+  <div id="endScreen">
+    🎉 All 70 Questions Completed! 🎉<br>
+    <span style="font-size:.55em;">Great job, students!</span>
+  </div>
+</div>
+
+<script>
+const questions = [
+/* Q1 */
+{ q: `If <span class="frac"><span class="num">3</span><span class="den">4</span></span> = <span class="frac"><span class="num">a</span><span class="den">20</span></span> , what is the value of a?`,
+  steps: [
+    `<b>Identify the type:</b> this is a proportion problem with two equal fractions.`,
+    `<b>Given:</b> <span class="frac"><span class="num">3</span><span class="den">4</span></span> = <span class="frac"><span class="num">a</span><span class="den">20</span></span>.`,
+    `<b>Rule:</b> cross-multiply → 3 × 20 = 4 × a.`,
+    `<b>Multiply the left side:</b> 3 × 20 = 60, so 60 = 4a.`,
+    `<b>Divide both sides by 4 to isolate a:</b> a = <span class="frac"><span class="num">60</span><span class="den">4</span></span>.`,
+    `<b>Simplify:</b> 60 divided by 4 equal 15.`,
+    `<b>Check:</b> <span class="frac"><span class="num">3</span><span class="den">4</span></span> = <span class="frac"><span class="num">15</span><span class="den">20</span></span> ✔.`,
+    `Answer: a equal 15 → Choice (a)`
+  ] },
+/* Q2 */
+{ q: `If the length in the drawing is 8 cm and the real length is 32 m, then the drawing scale = …`,
+  steps: [
+    `<b>Identify the type:</b> scale ratio between drawing and reality.`,
+    `<b>Rule:</b> scale equal drawing length over real length, in the same unit.`,
+    `<b>Convert 32 m to cm:</b> 32 × 100 = 3200 cm.`,
+    `<b>Write the ratio:</b> 8 over 3200.`,
+    `<b>Find the GCD of 8 and 3200:</b> it equal 8.`,
+    `<b>Divide both sides by 8:</b> 1 over 400.`,
+    `<b>Write as a scale:</b> 1 : 400.`,
+    `Answer: 1 : 400 → Choice (b)`
+  ] },
+/* Q3 */
+{ q: `If the amount of 180 pounds is divided in a ratio of 2 : 1, the smaller share is … pounds`,
+  steps: [
+    `<b>Identify the type:</b> dividing an amount into ratio parts.`,
+    `<b>Rule:</b> total parts equal sum of the ratio numbers.`,
+    `<b>Add the ratio numbers:</b> 2 + 1 = 3 parts.`,
+    `<b>Value of one part:</b> 180 divided by 3 equal 60 pounds.`,
+    `<b>Identify the smaller share:</b> it uses the smaller number of parts = 1.`,
+    `<b>Multiply:</b> 1 × 60 = 60 pounds.`,
+    `<b>Check:</b> larger share = 2 × 60 = 120, and 60 + 120 = 180 ✔.`,
+    `Answer: 60 pounds → Choice (a)`
+  ] },
+/* Q4 */
+{ q: `The percentage of 30 out of 150 equals …`,
+  steps: [
+    `<b>Identify the type:</b> percentage problem.`,
+    `<b>Rule:</b> percentage equal (part divided by whole) × 100%.`,
+    `<b>Part:</b> 30. <b>Whole:</b> 150.`,
+    `<b>Divide:</b> 30 divided by 150 equal 0.2.`,
+    `<b>Multiply by 100:</b> 0.2 × 100 = 20.`,
+    `<b>Write as percent:</b> 20%.`,
+    `Answer: 20% → Choice (c)`
+  ] },
+/* Q5 */
+{ q: `If <span class="frac"><span class="num">a</span><span class="den">15</span></span> = <span class="frac"><span class="num">2</span><span class="den">5</span></span> , what is the value of a + 4?`,
+  steps: [
+    `<b>Identify the type:</b> proportion followed by a small evaluation.`,
+    `<b>Given:</b> <span class="frac"><span class="num">a</span><span class="den">15</span></span> = <span class="frac"><span class="num">2</span><span class="den">5</span></span>.`,
+    `<b>Rule:</b> cross-multiply → a × 5 = 2 × 15.`,
+    `<b>Multiply right:</b> 2 × 15 = 30, so 5a = 30.`,
+    `<b>Divide both sides by 5:</b> a = <span class="frac"><span class="num">30</span><span class="den">5</span></span>.`,
+    `<b>Simplify:</b> a = 6.`,
+    `<b>Now evaluate:</b> a + 4 = 6 + 4 = 10.`,
+    `Answer: 10 → Choice (a)`
+  ] },
+/* Q6 */
+{ q: `The drawing scale of 1 : 5,000 means that every 1 cm on the map represents … in reality`,
+  steps: [
+    `<b>Understand scale:</b> 1 unit on the drawing corresponds to 5,000 of the same unit in reality.`,
+    `<b>So:</b> 1 cm on the drawing = 5,000 cm in reality.`,
+    `<b>Convert cm to m:</b> divide by 100.`,
+    `<b>Compute:</b> 5,000 divided by 100 equal 50 m.`,
+    `<b>Conclusion:</b> each 1 cm on the map represents 50 m in reality.`,
+    `Answer: 50 m → Choice (b)`
+  ] },
+/* Q7 */
+{ q: `If x = {2, 4} , y = {4, 6} , then x ∩ y = …`,
+  steps: [
+    `<b>Identify the type:</b> intersection of two sets.`,
+    `<b>Rule:</b> x ∩ y = elements that belong to both x and y.`,
+    `<b>List x:</b> {2, 4}. <b>List y:</b> {4, 6}.`,
+    `<b>Test 2:</b> is 2 in y? No.`,
+    `<b>Test 4:</b> is 4 in y? Yes.`,
+    `<b>So the only common element is 4.</b>`,
+    `<b>Write as a set:</b> x ∩ y = {4}.`,
+    `Answer: {4} → Choice (b)`
+  ] },
+/* Q8 */
+{ q: `If the ratio between two numbers is 3 : 2 and the difference between them is 10, then the two numbers are …`,
+  steps: [
+    `<b>Identify the type:</b> two numbers with a given ratio and difference.`,
+    `<b>Let the numbers be:</b> 3x (larger) and 2x (smaller).`,
+    `<b>Write the difference:</b> 3x − 2x = x.`,
+    `<b>Set equal to given difference:</b> x = 10.`,
+    `<b>Compute smaller:</b> 2 × 10 = 20.`,
+    `<b>Compute larger:</b> 3 × 10 = 30.`,
+    `<b>Check ratio:</b> 30 over 20 simplifies to 3 over 2 ✔.`,
+    `Answer: 20 and 30 → Choice (b)`
+  ] },
+/* Q9 */
+{ q: `The result of (−5) × (−3) + (−4) is:`,
+  steps: [
+    `<b>Rule:</b> multiplication before addition.`,
+    `<b>Multiply first:</b> (−5) × (−3).`,
+    `<b>Sign rule:</b> negative × negative equal positive.`,
+    `<b>Compute:</b> 5 × 3 = 15, so (−5) × (−3) = +15.`,
+    `<b>Rewrite the expression:</b> 15 + (−4).`,
+    `<b>Add:</b> 15 − 4 = 11.`,
+    `Answer: 11 → Choice (c)`
+  ] },
+/* Q10 */
+{ q: `If the price of a product after 25% discount is 180 pounds, then the original price is … pounds`,
+  steps: [
+    `<b>Identify the type:</b> original price from a discounted price.`,
+    `<b>Rule:</b> after d% discount, paid amount equal (100 − d)% of original price.`,
+    `<b>With d = 25%:</b> paid = 75% of P.`,
+    `<b>Write as equation:</b> 0.75 × P = 180.`,
+    `<b>Divide both sides by 0.75:</b> P = <span class="frac"><span class="num">180</span><span class="den">0.75</span></span>.`,
+    `<b>Compute:</b> P = 240.`,
+    `<b>Check:</b> 25% of 240 = 60, and 240 − 60 = 180 ✔.`,
+    `Answer: 240 pounds → Choice (c)`
+  ] },
+/* Q11 */
+{ q: `The number of subsets of the set A = {2, 3, 4} = …`,
+  steps: [
+    `<b>Identify the type:</b> counting subsets.`,
+    `<b>Rule:</b> a set with n elements has 2ⁿ subsets.`,
+    `<b>Count the elements of A:</b> 2, 3, 4 → n = 3.`,
+    `<b>Apply the rule:</b> number of subsets equal 2³.`,
+    `<b>Compute:</b> 2 × 2 × 2 = 8.`,
+    `<b>Interpretation:</b> these include the empty set and the set itself.`,
+    `Answer: 8 → Choice (d)`
+  ] },
+/* Q12 */
+{ q: `To divide a piece of wire 36 cm long in a ratio of 3 : 2 : 1, the length of the largest piece = … cm`,
+  steps: [
+    `<b>Identify the type:</b> dividing a length in a ratio.`,
+    `<b>Rule:</b> total parts equal sum of the ratio numbers.`,
+    `<b>Add:</b> 3 + 2 + 1 = 6 parts.`,
+    `<b>Value of one part:</b> 36 divided by 6 equal 6 cm.`,
+    `<b>Identify the largest piece:</b> it uses the largest ratio number = 3.`,
+    `<b>Multiply:</b> 3 × 6 = 18 cm.`,
+    `Answer: 18 cm → Choice (d)`
+  ] },
+/* Q13 */
+{ q: `If A = −2, B = 3 then the value of (A + B) − (A × B) is:`,
+  steps: [
+    `<b>Given:</b> A equal minus 2, B equal 3.`,
+    `<b>Step 1 – compute A + B:</b> −2 + 3 = 1.`,
+    `<b>Step 2 – compute A × B:</b> −2 × 3 = −6.`,
+    `<b>Substitute both results in the expression:</b> 1 − (−6).`,
+    `<b>Subtracting a negative = adding:</b> 1 + 6 = 7.`,
+    `Answer: 7 → Choice (a)`
+  ] },
+/* Q14 */
+{ q: `If {x, 3, 4} = {y, 2, 3}, then … = x + y`,
+  steps: [
+    `<b>Rule:</b> two sets are equal when they contain exactly the same elements.`,
+    `<b>Given:</b> {x, 3, 4} equal {y, 2, 3}.`,
+    `<b>Remove the common element 3:</b> {x, 4} must equal {y, 2}.`,
+    `<b>Match:</b> x must equal 2 and y must equal 4.`,
+    `<b>Compute x + y:</b> 2 + 4 = 6.`,
+    `Answer: 6 → Choice (c)`
+  ] },
+/* Q15 */
+{ q: `Which of the following equal 5a?`,
+  steps: [
+    `<b>Rule:</b> like terms have the same variable with the same exponent.`,
+    `<b>Choice a):</b> 2a + 3 contains a constant → not 5a.`,
+    `<b>Choice b):</b> 2 + 3a contains a constant → not 5a.`,
+    `<b>Choice c):</b> 5a equals 5a trivially.`,
+    `<b>Choice d):</b> 3a + 2a equal (3 + 2)a = 5a.`,
+    `<b>Best answer:</b> d) because it shows the simplification.`,
+    `Answer: 3a + 2a → Choice (d)`
+  ] },
+/* Q16 */
+{ q: `The amount of 270 pounds was divided between 3 people in a ratio of 2 : 3 : 4, so the difference between the largest and smallest share = … pounds`,
+  steps: [
+    `<b>Rule:</b> total parts equal sum of ratio numbers.`,
+    `<b>Add:</b> 2 + 3 + 4 = 9 parts.`,
+    `<b>Value of one part:</b> 270 divided by 9 equal 30 pounds.`,
+    `<b>Smallest share:</b> 2 × 30 = 60 pounds.`,
+    `<b>Largest share:</b> 4 × 30 = 120 pounds.`,
+    `<b>Difference:</b> 120 − 60 = 60 pounds.`,
+    `Answer: 60 pounds → Choice (b)`
+  ] },
+/* Q17 */
+{ q: `If the price of a commodity decreases from 1,500 pounds to 1,200 pounds, what is the percentage of reduction?`,
+  steps: [
+    `<b>Identify the type:</b> percentage decrease.`,
+    `<b>Reduction:</b> 1500 − 1200 = 300 pounds.`,
+    `<b>Rule:</b> percentage equal (reduction divided by original) × 100%.`,
+    `<b>Divide:</b> 300 divided by 1500 equal 0.2.`,
+    `<b>Multiply by 100:</b> 0.2 × 100 = 20.`,
+    `<b>Write as percent:</b> 20%.`,
+    `Answer: 20% → Choice (d)`
+  ] },
+/* Q18 */
+{ q: `If a − <span class="frac"><span class="num">1</span><span class="den">2</span></span> = <span class="frac"><span class="num">1</span><span class="den">2</span></span> , then a = …`,
+  steps: [
+    `<b>Goal:</b> isolate a.`,
+    `<b>Add <span class="frac"><span class="num">1</span><span class="den">2</span></span> to both sides:</b> a = <span class="frac"><span class="num">1</span><span class="den">2</span></span> + <span class="frac"><span class="num">1</span><span class="den">2</span></span>.`,
+    `<b>Same denominator:</b> add the numerators → <span class="frac"><span class="num">1+1</span><span class="den">2</span></span>.`,
+    `<b>Simplify numerator:</b> <span class="frac"><span class="num">2</span><span class="den">2</span></span>.`,
+    `<b>Simplify fraction:</b> <span class="frac"><span class="num">2</span><span class="den">2</span></span> equal 1.`,
+    `Answer: a equal 1 → Choice (a)`
+  ] },
+/* Q19 */
+{ q: `The mathematical expression which expresses that: subtract x from 1 is …`,
+  steps: [
+    `<b>Rule:</b> "subtract A from B" means B − A.`,
+    `<b>Identify A:</b> x.`,
+    `<b>Identify B:</b> 1.`,
+    `<b>Write the expression:</b> 1 − x.`,
+    `<b>Check the order:</b> start with 1, then take away x.`,
+    `Answer: 1 − x → Choice (d)`
+  ] },
+/* Q20 */
+{ q: `The relationship between {1, 2, 3} and ∅ is …`,
+  steps: [
+    `<b>Rule:</b> the empty set is a subset of every set.`,
+    `<b>So:</b> ∅ ⊂ {1, 2, 3} is always true.`,
+    `<b>But:</b> ∅ is not an element of {1, 2, 3}.`,
+    `<b>Correct relation:</b> ∅ subset of {1, 2, 3}.`,
+    `Answer: ⊂ (subset) → Choice (c)`
+  ] },
+/* Q21 */
+{ q: `Which of the following are like terms:`,
+  steps: [
+    `<b>Rule:</b> like terms have the same variable with the same exponent.`,
+    `<b>Choice a) x², y²:</b> different variables → not like.`,
+    `<b>Choice b) 3y, 5y:</b> same variable y, same power → like.`,
+    `<b>Choice c) 2a, 2b:</b> different variables → not like.`,
+    `<b>Choice d) 7x, 7:</b> one has a variable, one is a constant → not like.`,
+    `Answer: 3y and 5y → Choice (b)`
+  ] },
+/* Q22 */
+{ q: `If the quantities: a, 3, 4, b are proportional quantities, find the value of a × b`,
+  steps: [
+    `<b>Rule:</b> proportional quantities → <span class="frac"><span class="num">a</span><span class="den">3</span></span> = <span class="frac"><span class="num">4</span><span class="den">b</span></span>.`,
+    `<b>Cross-multiply:</b> a × b = 3 × 4.`,
+    `<b>Multiply:</b> 3 × 4 = 12.`,
+    `<b>Conclusion:</b> a × b equal 12 (independent of their individual values).`,
+    `Answer: a × b = 12`
+  ] },
+/* Q23 */
+{ q: `Maryam reads 20 pages of the book in 45 minutes. How many hours would it take to read 80 pages if she reads at the same rate?`,
+  steps: [
+    `<b>Rule:</b> at the same rate, time is proportional to pages.`,
+    `<b>Find the ratio of pages:</b> 80 divided by 20 equal 4.`,
+    `<b>So time is 4 times longer:</b> 4 × 45 = 180 minutes.`,
+    `<b>Convert minutes to hours:</b> divide by 60.`,
+    `<b>Compute:</b> 180 divided by 60 equal 3 hours.`,
+    `Answer: 3 hours`
+  ] },
+/* Q24 */
+{ q: `If the length in the drawing is 8 cm and the real length is 320 km, what is the scale of the drawing?`,
+  steps: [
+    `<b>Rule:</b> scale equal drawing over real, in the same unit.`,
+    `<b>Convert 320 km to cm:</b> 1 km = 100,000 cm → 320 × 100,000 = 32,000,000 cm.`,
+    `<b>Write the ratio:</b> 8 over 32,000,000.`,
+    `<b>Divide both sides by 8:</b> 1 over 4,000,000.`,
+    `<b>Write as scale:</b> 1 : 4,000,000.`,
+    `Answer: Scale equal 1 : 4,000,000`
+  ] },
+/* Q25 */
+{ q: `Three people participated in a trade, the first paid 70,000 pounds, the second paid 80,000 pounds, the third paid 90,000 pounds and profits at the end of the year were 96,000 pounds. Calculate their share of the profit at the end of the year.`,
+  steps: [
+    `<b>Rule:</b> profit is shared in the same ratio as capitals.`,
+    `<b>Capitals ratio:</b> 70,000 : 80,000 : 90,000.`,
+    `<b>Simplify by dividing by 10,000:</b> 7 : 8 : 9.`,
+    `<b>Total parts:</b> 7 + 8 + 9 = 24 parts.`,
+    `<b>One part:</b> 96,000 divided by 24 equal 4,000 pounds.`,
+    `<b>First share:</b> 7 × 4,000 = 28,000 pounds.`,
+    `<b>Second share:</b> 8 × 4,000 = 32,000 pounds.`,
+    `<b>Third share:</b> 9 × 4,000 = 36,000 pounds.`,
+    `Answer: 28,000 ; 32,000 ; 36,000 pounds`
+  ] },
+/* Q26 */
+{ q: `If the price of a dress is 810 pounds after the discount, and the discount rate is 10% of the original price, calculate the price of the dress before the discount?`,
+  steps: [
+    `<b>Rule:</b> after d% discount, paid equal (100 − d)% of original price.`,
+    `<b>Here d = 10%:</b> paid = 90% of P.`,
+    `<b>Write as equation:</b> 0.9 × P = 810.`,
+    `<b>Divide both sides by 0.9:</b> P = <span class="frac"><span class="num">810</span><span class="den">0.9</span></span>.`,
+    `<b>Compute:</b> P = 900.`,
+    `<b>Check:</b> 10% of 900 = 90, and 900 − 90 = 810 ✔.`,
+    `Answer: Original price equal 900 pounds`
+  ] },
+/* Q27 */
+{ q: `If <span class="frac"><span class="num">x − 2</span><span class="den">6</span></span> = <span class="frac"><span class="num">5</span><span class="den">15</span></span> , find the value of 2 × (value).`,
+  steps: [
+    `<b>Step 1:</b> simplify the right side by dividing numerator and denominator by 5 → <span class="frac"><span class="num">1</span><span class="den">3</span></span>.`,
+    `<b>Equation becomes:</b> <span class="frac"><span class="num">x − 2</span><span class="den">6</span></span> = <span class="frac"><span class="num">1</span><span class="den">3</span></span>.`,
+    `<b>Cross-multiply:</b> 3(x − 2) = 1 × 6 = 6.`,
+    `<b>Divide both sides by 3:</b> x − 2 = 2.`,
+    `<b>Add 2 to both sides:</b> x = 4.`,
+    `<b>Now find 2x:</b> 2 × 4 = 8.`,
+    `Answer: 2x equal 8`
+  ] },
+/* Q28 */
+{ q: `If x = <span class="frac"><span class="num">−3</span><span class="den">7</span></span> , y = <span class="frac"><span class="num">4</span><span class="den">7</span></span> , find x + y in its simplest form.`,
+  steps: [
+    `<b>Rule:</b> same denominator → add only the numerators.`,
+    `<b>Denominator here:</b> 7.`,
+    `<b>Add numerators:</b> −3 + 4 = 1.`,
+    `<b>Write result:</b> <span class="frac"><span class="num">1</span><span class="den">7</span></span>.`,
+    `<b>Already simplest?</b> GCD(1, 7) = 1 → yes.`,
+    `Answer: <span class="frac"><span class="num">1</span><span class="den">7</span></span>`
+  ] },
+/* Q29 */
+{ q: `From the opposite Venn diagram (B = {12,14,15} , A = {5,10,15}), find: 1) A ∩ B   2) A ∪ B`,
+  steps: [
+    `<b>Read the diagram:</b> A = {5, 10, 15}, B = {12, 14, 15}.`,
+    `<b>For ∩:</b> keep only the elements present in both circles.`,
+    `<b>Check each:</b> only 15 appears in both → A ∩ B = {15}.`,
+    `<b>For ∪:</b> collect all elements from both circles.`,
+    `<b>List without repetition:</b> 5, 10, 12, 14, 15.`,
+    `Answer: A ∩ B = {15} ; A ∪ B = {5, 10, 12, 14, 15}`
+  ] },
+/* Q30 */
+{ q: `If the number of students in a school is 650, and the ratio between the numbers of boys and girls is 6 : 7, calculate the excess number of girls over the number of boys?`,
+  steps: [
+    `<b>Rule:</b> total parts = sum of ratio numbers.`,
+    `<b>Add:</b> 6 + 7 = 13 parts.`,
+    `<b>Value of one part:</b> 650 divided by 13 equal 50 students.`,
+    `<b>Number of boys:</b> 6 × 50 = 300.`,
+    `<b>Number of girls:</b> 7 × 50 = 350.`,
+    `<b>Excess:</b> girls − boys = 350 − 300 = 50.`,
+    `Answer: 50 students`
+  ] },
+/* Q31 */
+{ q: `Use the addition properties to find the result: 1) (−4)+17+4   2) (−7)+10+(−5)   3) (−11)+3+(−8)+6`,
+  steps: [
+    `<b>Property:</b> commutative and additive inverse a + (−a) = 0.`,
+    `<b>1) Rearrange:</b> (−4) + 4 + 17 = 0 + 17 = 17.`,
+    `<b>2) Group negatives:</b> (−7) + (−5) + 10 = −12 + 10 = −2.`,
+    `<b>3) Group negatives:</b> (−11) + (−8) = −19.`,
+    `<b>3) Group positives:</b> 3 + 6 = 9.`,
+    `<b>3) Combine:</b> −19 + 9 = −10.`,
+    `Answer: 1) 17   2) −2   3) −10`
+  ] },
+/* Q32 */
+{ q: `If the scale drawing is 1:200,000 and the length in the drawing between two points is 3.5 cm, what is the real distance between the two points in kilometers?`,
+  steps: [
+    `<b>Rule:</b> real length = drawing length × scale factor.`,
+    `<b>Multiply:</b> 3.5 × 200,000 = 700,000 cm.`,
+    `<b>Convert cm to m:</b> 700,000 divided by 100 = 7,000 m.`,
+    `<b>Convert m to km:</b> 7,000 divided by 1,000 = 7 km.`,
+    `Answer: 7 km`
+  ] },
+/* Q33 */
+{ q: `Find all subsets of the set {1, 2, 4}`,
+  steps: [
+    `<b>Rule:</b> 3 elements → 2³ = 8 subsets.`,
+    `<b>Empty subset:</b> ∅.`,
+    `<b>One-element subsets:</b> {1}, {2}, {4}.`,
+    `<b>Two-element subsets:</b> {1,2}, {1,4}, {2,4}.`,
+    `<b>Three-element subset:</b> {1,2,4}.`,
+    `Answer: ∅ , {1} , {2} , {4} , {1,2} , {1,4} , {2,4} , {1,2,4}`
+  ] },
+/* Q34 */
+{ q: `If A = 2, B = −4, C = −3 find the numerical value of: (3B ÷ A) × C`,
+  steps: [
+    `<b>Given:</b> A = 2, B = −4, C = −3.`,
+    `<b>Step 1 – compute 3B:</b> 3 × (−4) = −12.`,
+    `<b>Step 2 – divide by A:</b> −12 divided by 2 = −6.`,
+    `<b>Step 3 – multiply by C:</b> (−6) × (−3).`,
+    `<b>Sign rule:</b> negative × negative = positive → 18.`,
+    `Answer: 18`
+  ] },
+/* Q35 */
+{ q: `Two numbers have a ratio of 5 : 2. If the smaller number is 48, what is the larger number?`,
+  steps: [
+    `<b>Let the numbers be 5x and 2x.</b>`,
+    `<b>Smaller:</b> 2x = 48.`,
+    `<b>Divide by 2:</b> x = 24.`,
+    `<b>Larger:</b> 5x = 5 × 24.`,
+    `<b>Compute:</b> 120.`,
+    `Answer: 120`
+  ] }
+
+/* ⚠️ QUESTIONS 36–70 CONTINUE IN PART 2 — DO NOT CLOSE THE ARRAY HERE */
+,
+/* Q36 */
+{ q: `A car uses 5 liters of gasoline to travel 40 km. How much gasoline does the car need to travel 128 km if it travels at the same rate?`,
+  steps: [
+    `<b>Identify the type:</b> unitary method (same rate).`,
+    `<b>Rate:</b> 5 liters per 40 km.`,
+    `<b>Find liters per 1 km:</b> 5 divided by 40 = <span class="frac"><span class="num">1</span><span class="den">8</span></span> liter per km.`,
+    `<b>Multiply by 128 km:</b> 128 × <span class="frac"><span class="num">1</span><span class="den">8</span></span>.`,
+    `<b>Simplify:</b> 128 divided by 8 = 16 liters.`,
+    `Answer: 16 liters`
+  ] },
+/* Q37 */
+{ q: `Write in listing method the set A, where A is a set of even natural numbers less than 15`,
+  steps: [
+    `<b>Natural numbers less than 15:</b> 1, 2, 3, …, 14.`,
+    `<b>Even numbers:</b> divisible by 2.`,
+    `<b>List them:</b> 2, 4, 6, 8, 10, 12, 14.`,
+    `<b>Write as a set:</b> A = {2, 4, 6, 8, 10, 12, 14}.`,
+    `Answer: A = {2, 4, 6, 8, 10, 12, 14}`
+  ] },
+/* Q38 */
+{ q: `Simplify: 5(a − 2b) + 3(4a + b) in its simplest form.`,
+  steps: [
+    `<b>Expand the first bracket:</b> 5 × a − 5 × 2b = 5a − 10b.`,
+    `<b>Expand the second bracket:</b> 3 × 4a + 3 × b = 12a + 3b.`,
+    `<b>Combine:</b> 5a − 10b + 12a + 3b.`,
+    `<b>Group a-terms:</b> 5a + 12a = 17a.`,
+    `<b>Group b-terms:</b> −10b + 3b = −7b.`,
+    `<b>Final result:</b> 17a − 7b.`,
+    `Answer: 17a − 7b`
+  ] },
+/* Q39 */
+{ q: `A piece of land measuring 81 acres was divided between two people in a ratio of 2 : 7. What will be the share of each of them?`,
+  steps: [
+    `<b>Rule:</b> total parts = sum of ratio numbers.`,
+    `<b>Add:</b> 2 + 7 = 9 parts.`,
+    `<b>One part:</b> 81 divided by 9 = 9 acres.`,
+    `<b>First share:</b> 2 × 9 = 18 acres.`,
+    `<b>Second share:</b> 7 × 9 = 63 acres.`,
+    `<b>Check:</b> 18 + 63 = 81 ✔.`,
+    `Answer: 18 acres and 63 acres`
+  ] },
+/* Q40 */
+{ q: `Put the ratio 45 : 27 in its simplest form.`,
+  steps: [
+    `<b>Find GCD(45, 27):</b> it equal 9.`,
+    `<b>Divide 45 by 9:</b> 45 divided by 9 = 5.`,
+    `<b>Divide 27 by 9:</b> 27 divided by 9 = 3.`,
+    `<b>Ratio in simplest form:</b> 5 : 3.`,
+    `Answer: 5 : 3`
+  ] },
+/* Q41 */
+{ q: `Find in the form <span class="frac"><span class="num">a</span><span class="den">b</span></span> the additive inverse of <span class="frac"><span class="num">4</span><span class="den">3</span></span>, and add on it the multiplicative identity for rational numbers.`,
+  steps: [
+    `<b>Additive inverse of <span class="frac"><span class="num">4</span><span class="den">3</span></span>:</b> −<span class="frac"><span class="num">4</span><span class="den">3</span></span>.`,
+    `<b>Multiplicative identity:</b> 1, which is <span class="frac"><span class="num">3</span><span class="den">3</span></span> in form a over b.`,
+    `<b>Add:</b> −<span class="frac"><span class="num">4</span><span class="den">3</span></span> + <span class="frac"><span class="num">3</span><span class="den">3</span></span>.`,
+    `<b>Same denominator:</b> add numerators: −4 + 3 = −1.`,
+    `<b>Result:</b> <span class="frac"><span class="num">−1</span><span class="den">3</span></span>.`,
+    `Answer: −<span class="frac"><span class="num">1</span><span class="den">3</span></span>`
+  ] },
+/* Q42 */
+{ q: `If the discount rate is 20% on any item inside a clothing store, what is the purchase price of pants that cost 500 pounds before the discount?`,
+  steps: [
+    `<b>Compute discount:</b> 20% of 500 = 0.2 × 500 = 100 pounds.`,
+    `<b>Purchase price = original − discount:</b> 500 − 100.`,
+    `<b>Compute:</b> 400.`,
+    `Answer: 400 pounds`
+  ] },
+/* Q43 */
+{ q: `The algebraic expression 5x + 3y − 5xy − 7 has 4 terms. Write: a) Constant term   b) Coefficient of term xy   c) The variable whose coefficient is 3`,
+  steps: [
+    `<b>a) Constant term:</b> the term with no variable = −7.`,
+    `<b>b) Term xy is −5xy → coefficient = −5.</b>`,
+    `<b>c) The term with coefficient 3 is 3y → variable is y.</b>`,
+    `Answer: a) −7   b) −5   c) y`
+  ] },
+/* Q44 */
+{ q: `Using properties of addition in Q to find: <span class="frac"><span class="num">−4</span><span class="den">7</span></span> + <span class="frac"><span class="num">−1</span><span class="den">2</span></span> + <span class="frac"><span class="num">5</span><span class="den">7</span></span> + <span class="frac"><span class="num">1</span><span class="den">2</span></span> in its simplest form.`,
+  steps: [
+    `<b>Group same-denominator terms:</b> (−<span class="frac"><span class="num">4</span><span class="den">7</span></span> + <span class="frac"><span class="num">5</span><span class="den">7</span></span>) + (−<span class="frac"><span class="num">1</span><span class="den">2</span></span> + <span class="frac"><span class="num">1</span><span class="den">2</span></span>).`,
+    `<b>First group:</b> (−4 + 5) over 7 = <span class="frac"><span class="num">1</span><span class="den">7</span></span>.`,
+    `<b>Second group:</b> (−1 + 1) over 2 = 0.`,
+    `<b>Add both groups:</b> <span class="frac"><span class="num">1</span><span class="den">7</span></span> + 0 = <span class="frac"><span class="num">1</span><span class="den">7</span></span>.`,
+    `Answer: <span class="frac"><span class="num">1</span><span class="den">7</span></span>`
+  ] },
+/* Q45 */
+{ q: `If A = {9,10,8} , B = {4,9,7} , C = {1,9} find: 1) A ∩ B ∩ C   2) A ∪ (B ∩ C)`,
+  steps: [
+    `<b>Compute B ∩ C:</b> common elements of B and C = {9}.`,
+    `<b>1) A ∩ B ∩ C:</b> the element common to all three = {9}.`,
+    `<b>2) Note B ∩ C = {9}.</b>`,
+    `<b>2) A ∪ {9}:</b> combine A with 9 (already in A) = {8, 9, 10}.`,
+    `Answer: 1) {9}   2) {8, 9, 10}`
+  ] },
+/* Q46 */
+{ q: `If the price of the car tire is 3,500 pounds, what would be the selling price of the tire after adding a tax rate of 10%?`,
+  steps: [
+    `<b>Compute tax:</b> 10% of 3,500 = 0.1 × 3,500 = 350 pounds.`,
+    `<b>Add tax to original price:</b> 3,500 + 350.`,
+    `<b>Compute:</b> 3,850.`,
+    `Answer: 3,850 pounds`
+  ] },
+/* Q47 */
+{ q: `Find the result of each of the following in its simplest form: 1) 5<span class="frac"><span class="num">1</span><span class="den">2</span></span> × <span class="frac"><span class="num">−2</span><span class="den">11</span></span>   2) <span class="frac"><span class="num">1</span><span class="den">2</span></span> + <span class="frac"><span class="num">5</span><span class="den">8</span></span> ÷ <span class="frac"><span class="num">3</span><span class="den">16</span></span>`,
+  steps: [
+    `<b>1) Convert mixed number:</b> 5<span class="frac"><span class="num">1</span><span class="den">2</span></span> = <span class="frac"><span class="num">11</span><span class="den">2</span></span>.`,
+    `<b>1) Multiply:</b> <span class="frac"><span class="num">11</span><span class="den">2</span></span> × <span class="frac"><span class="num">−2</span><span class="den">11</span></span> → cancel 11 with 11 and 2 with 2 → −1.`,
+    `<b>2) Division of fractions:</b> <span class="frac"><span class="num">5</span><span class="den">8</span></span> ÷ <span class="frac"><span class="num">3</span><span class="den">16</span></span> = <span class="frac"><span class="num">5</span><span class="den">8</span></span> × <span class="frac"><span class="num">16</span><span class="den">3</span></span>.`,
+    `<b>2) Simplify:</b> <span class="frac"><span class="num">5</span><span class="den">8</span></span> × <span class="frac"><span class="num">16</span><span class="den">3</span></span> = <span class="frac"><span class="num">10</span><span class="den">3</span></span>.`,
+    `<b>2) Add <span class="frac"><span class="num">1</span><span class="den">2</span></span>:</b> <span class="frac"><span class="num">1</span><span class="den">2</span></span> + <span class="frac"><span class="num">10</span><span class="den">3</span></span> = <span class="frac"><span class="num">3</span><span class="den">6</span></span> + <span class="frac"><span class="num">20</span><span class="den">6</span></span> = <span class="frac"><span class="num">23</span><span class="den">6</span></span>.`,
+    `Answer: 1) −1   2) <span class="frac"><span class="num">23</span><span class="den">6</span></span>`
+  ] },
+/* Q48 */
+{ q: `If the ratio of the lengths of the sides of a triangle with a perimeter of 135 cm is 7 : 5 : 3, find the length of the smallest side.`,
+  steps: [
+    `<b>Total parts:</b> 7 + 5 + 3 = 15.`,
+    `<b>Value of one part:</b> 135 divided by 15 = 9 cm.`,
+    `<b>Smallest side uses the smallest number:</b> 3 parts.`,
+    `<b>Multiply:</b> 3 × 9 = 27 cm.`,
+    `Answer: 27 cm`
+  ] },
+/* Q49 */
+{ q: `Three people participated in a project with a capital of 360,000 pounds in the ratio 3 : 2 : 1. Calculate how much each person contributed.`,
+  steps: [
+    `<b>Total parts:</b> 3 + 2 + 1 = 6.`,
+    `<b>One part:</b> 360,000 divided by 6 = 60,000 pounds.`,
+    `<b>First contribution:</b> 3 × 60,000 = 180,000.`,
+    `<b>Second contribution:</b> 2 × 60,000 = 120,000.`,
+    `<b>Third contribution:</b> 1 × 60,000 = 60,000.`,
+    `<b>Check:</b> 180,000 + 120,000 + 60,000 = 360,000 ✔.`,
+    `Answer: 180,000 ; 120,000 ; 60,000 pounds`
+  ] },
+/* Q50 */
+{ q: `A magnified image of a microscopic insect was taken. If its length in the image is 12 cm and its real length is 3 mm, find the scale of the drawing.`,
+  steps: [
+    `<b>Convert image length to mm:</b> 12 × 10 = 120 mm.`,
+    `<b>Write ratio:</b> 120 over 3.`,
+    `<b>Divide by 3:</b> 40 over 1.`,
+    `<b>Interpret:</b> image is 40 times magnified.`,
+    `Answer: Scale = 40 : 1`
+  ] },
+/* Q51 */
+{ q: `If the price of a mobile phone in one of the stores is 12,750 pounds, and its price was reduced by 8%, what would be its price after the discount?`,
+  steps: [
+    `<b>Compute discount:</b> 8% of 12,750 = 0.08 × 12,750 = 1,020 pounds.`,
+    `<b>Subtract:</b> 12,750 − 1,020.`,
+    `<b>Compute:</b> 11,730.`,
+    `Answer: 11,730 pounds`
+  ] },
+/* Q52 */
+{ q: `Add the expressions 3a − 2b and 2a + 5b, then find the numerical value of the result when a = 2 and b = 1.`,
+  steps: [
+    `<b>Add a-terms:</b> 3a + 2a = 5a.`,
+    `<b>Add b-terms:</b> −2b + 5b = 3b.`,
+    `<b>Sum expression:</b> 5a + 3b.`,
+    `<b>Substitute a = 2, b = 1:</b> 5(2) + 3(1).`,
+    `<b>Compute:</b> 10 + 3 = 13.`,
+    `Answer: 5a + 3b ; value = 13`
+  ] },
+/* Q53 */
+{ q: `Identify the mistake in each of the following and correct it: a) (−10) − (−5) = 15   b) (−4) − 3 = −1   c) 6 − (−8) = −2`,
+  steps: [
+    `<b>a) Rule:</b> subtract a negative = add → −10 + 5 = −5 (sheet said 15).`,
+    `<b>b) Rule:</b> −4 − 3 = −7 (sheet said −1).`,
+    `<b>c) Rule:</b> 6 + 8 = 14 (sheet said −2).`,
+    `Answer: a) −5   b) −7   c) 14`
+  ] },
+/* Q54 */
+{ q: `Use properties of multiplication to find the result: a) (−4) × 12 × 10   b) (−2) × 10 × (5)   c) (−8) × 2 × (−125) × 5`,
+  steps: [
+    `<b>a) Group:</b> (−4 × 10) × 12 = −40 × 12 = −480.`,
+    `<b>b) Group:</b> (−2 × 5) × 10 = −10 × 10 = −100.`,
+    `<b>c) Group friendly factors:</b> (−8 × −125) × (2 × 5).`,
+    `<b>c) Compute each group:</b> 1,000 × 10 = 10,000.`,
+    `Answer: a) −480   b) −100   c) 10,000`
+  ] },
+/* Q55 */
+{ q: `If <span class="frac"><span class="num">x</span><span class="den">4</span></span> = 0.2 , find the value of x.`,
+  steps: [
+    `<b>Multiply both sides by 4:</b> x = 0.2 × 4.`,
+    `<b>Compute:</b> x = 0.8.`,
+    `<b>Check:</b> 0.8 divided by 4 = 0.2 ✔.`,
+    `Answer: x = 0.8`
+  ] },
+/* Q56 */
+{ q: `If <span class="frac"><span class="num">x − 2</span><span class="den">6</span></span> = <span class="frac"><span class="num">3</span><span class="den">18</span></span> , find the value of 3x.`,
+  steps: [
+    `<b>Simplify the right:</b> <span class="frac"><span class="num">3</span><span class="den">18</span></span> = <span class="frac"><span class="num">1</span><span class="den">6</span></span>.`,
+    `<b>Equation becomes:</b> <span class="frac"><span class="num">x − 2</span><span class="den">6</span></span> = <span class="frac"><span class="num">1</span><span class="den">6</span></span>.`,
+    `<b>Same denominator → equate numerators:</b> x − 2 = 1.`,
+    `<b>Add 2:</b> x = 3.`,
+    `<b>Multiply by 3:</b> 3x = 9.`,
+    `Answer: 3x = 9`
+  ] },
+/* Q57 */
+{ q: `If the scale drawing of the map is 1 : 1,000,000 and the real distance between two cities is 37 km, what is the distance between the two cities on the map in centimeters?`,
+  steps: [
+    `<b>Convert 37 km to cm:</b> 37 × 100,000 = 3,700,000 cm.`,
+    `<b>Divide by scale factor:</b> 3,700,000 divided by 1,000,000.`,
+    `<b>Compute:</b> 3.7 cm.`,
+    `Answer: 3.7 cm`
+  ] },
+/* Q58 */
+{ q: `A man distributed 18,000 pounds to two people in a ratio of 2 : 3. How much will each of them receive?`,
+  steps: [
+    `<b>Total parts:</b> 2 + 3 = 5.`,
+    `<b>One part:</b> 18,000 divided by 5 = 3,600.`,
+    `<b>First person:</b> 2 × 3,600 = 7,200.`,
+    `<b>Second person:</b> 3 × 3,600 = 10,800.`,
+    `<b>Check:</b> 7,200 + 10,800 = 18,000 ✔.`,
+    `Answer: 7,200 ; 10,800 pounds`
+  ] },
+/* Q59 */
+{ q: `If A = {2, 4, 6} , B = {4, 6, 8} find A ∩ B and A ∪ B.`,
+  steps: [
+    `<b>A ∩ B:</b> elements in both = {4, 6}.`,
+    `<b>A ∪ B:</b> all elements without repetition = {2, 4, 6, 8}.`,
+    `Answer: A ∩ B = {4, 6} ; A ∪ B = {2, 4, 6, 8}`
+  ] },
+/* Q60 */
+{ q: `Find the result of the following: a) (−7) × 3   b) (−8) × (−3)   c) 5 × 1 − 6   d) 36 ÷ (−6)   e) (−18) ÷ (−2)   f) (−16) ÷ 4`,
+  steps: [
+    `<b>a)</b> (−7) × 3 = −21.`,
+    `<b>b)</b> (−8) × (−3) = +24.`,
+    `<b>c)</b> 5 × 1 − 6 = 5 − 6 = −1.`,
+    `<b>d)</b> 36 divided by (−6) = −6.`,
+    `<b>e)</b> (−18) divided by (−2) = +9.`,
+    `<b>f)</b> (−16) divided by 4 = −4.`,
+    `Answer: a) −21  b) 24  c) −1  d) −6  e) 9  f) −4`
+  ] },
+/* Q61 */
+{ q: `The ratio of two numbers is 3 : 4. If the smaller number is 15, what is the larger number?`,
+  steps: [
+    `<b>Let numbers be 4x and 3x.</b>`,
+    `<b>Smaller:</b> 3x = 15.`,
+    `<b>Solve:</b> x = 15 divided by 3 = 5.`,
+    `<b>Larger:</b> 4 × 5 = 20.`,
+    `Answer: 20`
+  ] },
+/* Q62 */
+{ q: `Find the value of the expression 4x + 3x − 5x when x = 2.`,
+  steps: [
+    `<b>Combine like terms:</b> 4x + 3x − 5x = (4 + 3 − 5)x.`,
+    `<b>Simplify coefficient:</b> 2x.`,
+    `<b>Substitute x = 2:</b> 2 × 2.`,
+    `<b>Compute:</b> 4.`,
+    `Answer: 4`
+  ] },
+/* Q63 */
+{ q: `If x = <span class="frac"><span class="num">−1</span><span class="den">7</span></span> , y = <span class="frac"><span class="num">3</span><span class="den">4</span></span> , find the value of 7x + 4y in its simplest form.`,
+  steps: [
+    `<b>7x:</b> 7 × <span class="frac"><span class="num">−1</span><span class="den">7</span></span> = −1.`,
+    `<b>4y:</b> 4 × <span class="frac"><span class="num">3</span><span class="den">4</span></span> = 3.`,
+    `<b>Add:</b> −1 + 3.`,
+    `<b>Compute:</b> 2.`,
+    `Answer: 2`
+  ] },
+/* Q64 */
+{ q: `Sandy received a 15% discount on the price of a sports shoe, so she paid 340 pounds. Find the original price of the shoe.`,
+  steps: [
+    `<b>Rule:</b> after 15% discount she paid 85% of P.`,
+    `<b>Equation:</b> 0.85 × P = 340.`,
+    `<b>Divide both sides by 0.85:</b> P = <span class="frac"><span class="num">340</span><span class="den">0.85</span></span>.`,
+    `<b>Compute:</b> P = 400.`,
+    `Answer: 400 pounds`
+  ] },
+/* Q65 */
+{ q: `Two integers whose product equals 44 and their sum equals zero — what are the two numbers?`,
+  steps: [
+    `<b>Sum = 0 → numbers are opposites:</b> n and −n.`,
+    `<b>Their product:</b> n × (−n) = −n².`,
+    `<b>But −n² is always ≤ 0.</b>`,
+    `<b>So it cannot equal +44.</b>`,
+    `<b>Conclusion:</b> the problem as written has no integer solution.`,
+    `Answer: No integer pair exists (problem as written is impossible)`
+  ] },
+/* Q66 */
+{ q: `If {5, 3, x} = {2, 5, y}, what is the value of 2x + y?`,
+  steps: [
+    `<b>Equal sets → same elements.</b>`,
+    `<b>Remove 5:</b> {3, x} = {2, y}.`,
+    `<b>Match:</b> x = 2 and y = 3.`,
+    `<b>Compute:</b> 2(2) + 3 = 4 + 3 = 7.`,
+    `Answer: 7`
+  ] },
+/* Q67 */
+{ q: `Simplify: 2a + 3b − 3a + 4b in its simplest form.`,
+  steps: [
+    `<b>Group a:</b> 2a − 3a = −a.`,
+    `<b>Group b:</b> 3b + 4b = 7b.`,
+    `<b>Combine:</b> −a + 7b = 7b − a.`,
+    `Answer: 7b − a`
+  ] },
+/* Q68 */
+{ q: `If {1, 3, x, 5} ⊂ {x, 3, y, 9}, find the value of x + y.`,
+  steps: [
+    `<b>Subset:</b> every element of the left is in the right.`,
+    `<b>So 1 and 5 must appear on the right.</b>`,
+    `<b>Thus {x, y} = {1, 5} in some order.</b>`,
+    `<b>Compute:</b> x + y = 1 + 5 = 6.`,
+    `Answer: 6`
+  ] },
+/* Q69 */
+{ q: `Ahmad drew a picture of his brother Abdul Rahman with a drawing scale of 1 : 40. If Abdul Rahman's height is 160 cm, what is his height in the picture?`,
+  steps: [
+    `<b>Rule:</b> picture = real divided by scale factor.`,
+    `<b>Substitute:</b> 160 divided by 40.`,
+    `<b>Compute:</b> 4 cm.`,
+    `Answer: 4 cm`
+  ] },
+/* Q70 */
+{ q: `If x = 3 , y = 6 , z = −3 , find the value of (4x + y) ÷ z in its simplest form.`,
+  steps: [
+    `<b>Compute 4x:</b> 4 × 3 = 12.`,
+    `<b>Add y:</b> 12 + 6 = 18.`,
+    `<b>Divide by z:</b> 18 divided by (−3).`,
+    `<b>Compute:</b> −6.`,
+    `Answer: −6`
+  ] }
+];
+
+/* ================================================================
+   APP LOGIC
+   ================================================================ */
+let currentIndex = 0, currentStep = 0, muted = false, isAdding = false;
+const $ = id => document.getElementById(id);
+const qNumEl = document.querySelector('#questionBox .qNum');
+const qTextEl = document.querySelector('#questionBox .qText');
+const stepsArea = $('stepsArea'), addStepBtn = $('addStepBtn'), nextBtn = $('nextBtn');
+const muteBtn = $('muteBtn'), qSpeakBtn = $('qSpeakBtn');
+const progressFill = $('progressFill'), progressText = $('progressText');
+const endScreen = $('endScreen'), controls = $('controls');
+const splash = $('splash'), startBtn = $('startBtn');
+
+function htmlToSpeechText(html) {
+  const tmp = document.createElement('div');
+  tmp.innerHTML = html;
+  tmp.querySelectorAll('.frac').forEach(f => {
+    const num = f.querySelector('.num')?.textContent || '';
+    const den = f.querySelector('.den')?.textContent || '';
+    f.replaceWith(document.createTextNode(` ${num} over ${den} `));
+  });
+  let text = (tmp.textContent || '').replace(/\s+/g, ' ').trim();
+  return text
+    .replace(/÷/g, ' divided by ')
+    .replace(/=/g, ' equal ')
+    .replace(/(\d)\s*:\s*(\d)/g, '$1 over $2')
+    .replace(/×/g, ' times ')
+    .replace(/−/g, ' minus ')
+    .replace(/–/g, ' minus ')
+    .replace(/∩/g, ' intersection ')
+    .replace(/∪/g, ' union ')
+    .replace(/⊂/g, ' subset of ')
+    .replace(/∈/g, ' belongs to ')
+    .replace(/∅/g, ' empty set ')
+    .replace(/²/g, ' squared ')
+    .replace(/³/g, ' cubed ')
+    .replace(/→/g, ' gives ')
+    .replace(/✔/g, ' ')
+    .replace(/\s+/g, ' ').trim();
+}
+
+function speak(html) {
+  if (muted) return;
+  if (!('speechSynthesis' in window)) return;
+  try { window.speechSynthesis.cancel(); } catch(e){}
+  const clean = htmlToSpeechText(html);
+  if (!clean) return;
+  setTimeout(() => {
+    const u = new SpeechSynthesisUtterance(clean);
+    u.lang = 'en-US'; u.rate = 0.95; u.pitch = 1.05; u.volume = 1.0;
+    const voices = window.speechSynthesis.getVoices();
+    const en = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+    if (en) u.voice = en;
+    window.speechSynthesis.speak(u);
+  }, 50);
+}
+
+function renderQuestion() {
+  const qObj = questions[currentIndex];
+  qNumEl.textContent = `Q${currentIndex + 1})`;
+  qTextEl.innerHTML = qObj.q;
+  stepsArea.innerHTML = '';
+  currentStep = 0; isAdding = false;
+  addStepBtn.disabled = false;
+  addStepBtn.textContent = '➕ Add Step';
+  nextBtn.disabled = true;
+  const pct = (currentIndex / questions.length) * 100;
+  progressFill.style.width = pct + '%';
+  progressText.textContent = `Question ${currentIndex + 1} of ${questions.length}`;
+}
+
+function addNextStep() {
+  if (isAdding) return;
+  const qObj = questions[currentIndex];
+  if (currentStep >= qObj.steps.length) return;
+  isAdding = true;
+  const isFinal = currentStep === qObj.steps.length - 1;
+  const side = isFinal ? 'final' : (currentStep % 2 === 0 ? 'left' : 'right');
+  const div = document.createElement('div');
+  div.className = `step ${side}`;
+  const badge = document.createElement('span');
+  badge.className = 'badge';
+  badge.textContent = isFinal ? '★' : (currentStep + 1);
+  div.appendChild(badge);
+  const txt = document.createElement('span');
+  txt.className = 'txt';
+  txt.innerHTML = qObj.steps[currentStep];
+  div.appendChild(txt);
+  const ownStepText = qObj.steps[currentStep];
+  const spk = document.createElement('button');
+  spk.className = 'speak';
+  spk.textContent = '🔊';
+  spk.title = 'Read this step';
+  spk.addEventListener('click', (e) => {
+    e.stopPropagation();
+    speak(ownStepText);
+  });
+  div.appendChild(spk);
+  stepsArea.appendChild(div);
+  div.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  currentStep++;
+  if (currentStep >= qObj.steps.length) {
+    addStepBtn.disabled = true;
+    addStepBtn.textContent = '★ Complete';
+    nextBtn.disabled = false;
+    const pct = ((currentIndex + 1) / questions.length) * 100;
+    progressFill.style.width = pct + '%';
+  }
+  setTimeout(() => { isAdding = false; }, 380);
+}
+
+function nextQuestion() {
+  if (isAdding) return;
+  try { window.speechSynthesis.cancel(); } catch(e){}
+  if (currentIndex < questions.length - 1) {
+    currentIndex++;
+    renderQuestion();
+  } else {
+    showEnd();
+  }
+}
+
+function showEnd() {
+  document.getElementById('questionBox').style.display = 'none';
+  stepsArea.style.display = 'none';
+  controls.style.display = 'none';
+  document.getElementById('progressWrap').style.display = 'none';
+  endScreen.style.display = 'flex';
+  progressFill.style.width = '100%';
+}
+
+muteBtn.addEventListener('click', () => {
+  muted = !muted;
+  muteBtn.textContent = muted ? '🔇' : '🔊';
+  muteBtn.classList.toggle('muted', muted);
+  if (muted) { try { window.speechSynthesis.cancel(); } catch(e){} }
+});
+
+qSpeakBtn.addEventListener('click', () => speak(questions[currentIndex].q));
+addStepBtn.addEventListener('click', addNextStep);
+nextBtn.addEventListener('click', nextQuestion);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'Enter') {
+    e.preventDefault();
+    if (!addStepBtn.disabled) addNextStep();
+    else if (!nextBtn.disabled) nextQuestion();
+  }
+  if (e.key === 'm' || e.key === 'M') muteBtn.click();
+});
+
+startBtn.addEventListener('click', () => {
+  splash.classList.add('hide');
+  setTimeout(() => { splash.style.display = 'none'; }, 700);
+  renderQuestion();
+});
+
+if ('speechSynthesis' in window) {
+  window.speechSynthesis.onvoiceschanged = () => {};
+}
+</script>
+</body>
+</html>
